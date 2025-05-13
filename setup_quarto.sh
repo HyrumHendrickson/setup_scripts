@@ -37,13 +37,20 @@ python3 -m venv .venv
 source ".venv/bin/activate"
 
 # setup r env
-Rscript -e "install.packages('renv', repos='https://cloud.r-project.org'); renv::init(bare = TRUE)"
+USER_LIB="$HOME/R/library"
+mkdir -p "$USER_LIB"
+
+# Install renv explicitly to user library
+Rscript -e "install.packages('renv', lib = '$USER_LIB', repos = 'https://cloud.r-project.org')"
+
+# Use renv from the user library
+Rscript -e "library(renv, lib.loc = '$USER_LIB'); renv::init(bare = TRUE)"
 
 # install python packages
 pip install numpy pandas matplotlib seaborn scikit-learn scipy jupyter notebook plotly sqlite3 ipykernel
 
 # install R packages
-Rscript -e "renv::install(c('languageserver', 'pander', 'tidyverse', 'quarto', 'knitr', 'rmarkdown'))"
+Rscript -e "renv::install(c('languageserver', 'pander', 'tidyverse', 'quarto', 'knitr', 'rmarkdown'), lib = '$USER_LIB', repos = 'https://cloud.r-project.org')"
 
 # dowload example files
 # grabs a qmd
