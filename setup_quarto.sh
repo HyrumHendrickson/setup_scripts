@@ -18,15 +18,13 @@ rm quarto-linux-amd64.deb
 sudo apt install sqlite3
 
 # install python extension
-code --install-extension Microsoft.Python
+code --install-extension ms-python.Python
 
 # install R extension
 code --install-extension REditorSupport.r
 
 # install quarto extension
 code --install-extension quarto.quarto
-
-
 
 # install SQL extension
 
