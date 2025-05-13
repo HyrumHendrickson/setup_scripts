@@ -1,0 +1,22 @@
+---
+title: "Awesome Homework"
+author: "Hyrum Hendrickson"
+format: html
+execute:
+  keep-md: true
+---
+```{r}
+library(pander)
+library(tidyverse)
+```
+
+
+```{r}
+data <- c(1,2,3,4,5)
+
+```
+
+
+```{r}
+pander(data)
+```
