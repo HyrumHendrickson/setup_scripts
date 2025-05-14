@@ -7,7 +7,9 @@
 sudo apt update -y
 
 # install R
-sudo apt install -y r-base
+# needs to install latest R version, Ubuntu doesn't have the right default
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 'E298A3A825C0D65DFD57CBB651716619E084DAB9' && sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/" && sudo apt-get update && sudo apt-get install --no-install-recommends r-base -y
+
 
 # install quarto
 wget https://quarto.org/download/latest/quarto-linux-amd64.deb
