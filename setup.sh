@@ -6,6 +6,17 @@
 # basic update
 sudo apt update -y
 
+# R dependancies
+sudo apt install -y \
+    libharfbuzz-dev \
+    libfribidi-dev \
+    libfreetype6-dev \
+    libpng-dev \
+    libtiff5-dev \
+    libjpeg-dev \
+    pkg-config \
+    pandoc
+
 # install R
 # needs to install latest R version, Ubuntu doesn't have the right default
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 'E298A3A825C0D65DFD57CBB651716619E084DAB9' && sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/" && sudo apt-get update && sudo apt-get install --no-install-recommends r-base -y
@@ -41,19 +52,16 @@ source ".venv/bin/activate"
 # setup r env
 USER_LIB="$HOME/R/library"
 mkdir -p "$USER_LIB"
-
-# Install renv explicitly to user library
 Rscript -e "install.packages('renv', lib = '$USER_LIB', repos = 'https://cran.r-project.org', type = 'source')"
-
-# Use renv from the user library
 Rscript -e "library(renv, lib.loc = '$USER_LIB'); renv::init(bare = TRUE)"
 
 # install python packages
 pip install numpy pandas matplotlib seaborn scikit-learn scipy jupyter notebook plotly sqlite3 ipykernel
 
 # install R packages
-
-Rscript -e "renv::install(c('languageserver', 'pander', 'tidyverse', 'quarto', 'knitr', 'rmarkdown'), lib = '$USER_LIB', repos = 'https://cloud.r-project.org')"
+# tidyverse and pander are reccomended as well
+Rscript -e "renv::install(c('languageserver', 'quarto', 'knitr', 'rmarkdown', 'reticulate'), lib = '$USER_LIB', repos = 'https://cloud.r-project.org')"
+export RETICULATE_PYTHON="$(pwd)/.venv/bin/python"
 
 # dowload example files
 # grabs a qmd

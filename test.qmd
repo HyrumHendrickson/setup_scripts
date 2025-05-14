@@ -6,8 +6,10 @@ execute:
   keep-md: true
 ---
 ```{r}
-library(pander)
-library(tidyverse)
+library(reticulate)
+use_virtualenv(".venv", required = TRUE)
+py_config()
+
 ```
 
 
