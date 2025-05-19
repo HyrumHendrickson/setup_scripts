@@ -1,3 +1,2 @@
 # setup_scripts
-
-sudo bash setup_quarto.sh
+curl xxxx | source

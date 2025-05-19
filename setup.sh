@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# --- This script is meant to setup quarto documents for R, Python, and SQL in VS code ---
+# --- This script is meant to setup quarto documents for R, Python, and SQL in Github Codespace ---
 # --- to use; run -> curl xxxx ---
 
 # basic update
@@ -56,7 +56,8 @@ Rscript -e "install.packages('renv', lib = '$USER_LIB', repos = 'https://cran.r-
 Rscript -e "library(renv, lib.loc = '$USER_LIB'); renv::init(bare = TRUE)"
 
 # install python packages
-pip install numpy pandas matplotlib seaborn scikit-learn scipy jupyter notebook plotly sqlite3 ipykernel
+# seaborn scikit-learn numpy pandas matplotlib scipy sqlite3
+pip install jupyter notebook ipykernel plotly
 
 # install R packages
 # tidyverse and pander are reccomended as well
