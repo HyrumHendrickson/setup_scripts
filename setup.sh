@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Updating system packages..."
+echo "==> Updating system packages..."
 sudo apt-get update -y
 sudo apt-get install -y \
   wget \
@@ -17,12 +17,10 @@ sudo apt-get install -y \
   libtiff5-dev \
   libjpeg-dev \
   pandoc \
-  quarto
+  quarto \
+  r-base
 
-echo "Installing R..."
-sudo apt-get install -y r-base
-
-echo "Installing Python packages..."
+echo "==> Installing Python and packages..."
 pip install --upgrade pip
 pip install \
   jupyter \
@@ -34,13 +32,18 @@ pip install \
   seaborn \
   quarto
 
-echo "Installing R packages..."
-Rscript -e "install.packages(c('reticulate', 'tidyverse', 'ggplot2', 'dplyr', 'knitr', 'rmarkdown'), repos='https://cloud.r-project.org')"
+echo "==> Installing R packages..."
+Rscript -e "install.packages(c('IRkernel', 'reticulate', 'tidyverse', 'ggplot2', 'dplyr', 'knitr', 'rmarkdown'), repos='https://cloud.r-project.org')"
 
-echo "Registering R kernel with Jupyter..."
-Rscript -e "IRkernel::installspec()"
+echo "==> Registering R kernel with Jupyter..."
+Rscript -e "IRkernel::installspec(user = FALSE)"
 
-echo "Validating Quarto installation..."
+echo "==> Installing VS Code extensions for Quarto and R..."
+code --install-extension quarto.quarto
+code --install-extension REditorSupport.r
+code --install-extension Ikuyadeu.r
+
+echo "==> Validating Quarto installation..."
 quarto check
 
-echo "Environment setup complete. You can now render Quarto documents with R and Python."
+echo "==> Setup complete. Quarto, R, Python, and VS Code extensions are ready in your Codespace."
