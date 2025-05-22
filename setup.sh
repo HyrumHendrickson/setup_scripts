@@ -1,10 +1,13 @@
 #!/bin/bash
 
-echo "==> Updating system packages..."
+echo "==> Updating package index..."
 sudo apt-get update -y
+
+echo "==> Installing system dependencies..."
 sudo apt-get install -y \
   wget \
   curl \
+  gpg \
   software-properties-common \
   libcurl4-openssl-dev \
   libssl-dev \
@@ -16,11 +19,21 @@ sudo apt-get install -y \
   libpng-dev \
   libtiff5-dev \
   libjpeg-dev \
-  pandoc \
-  quarto \
-  r-base
+  build-essential
 
-echo "==> Installing Python and packages..."
+echo "==> Adding R repository and installing R..."
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 51716619E084DAB9
+sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/"
+sudo apt-get update
+sudo apt-get install -y r-base
+
+echo "==> Installing R packages..."
+Rscript -e "install.packages(c('IRkernel', 'reticulate', 'tidyverse', 'ggplot2', 'dplyr', 'knitr', 'rmarkdown'), repos='https://cloud.r-project.org')"
+
+echo "==> Registering R kernel with Jupyter..."
+Rscript -e "IRkernel::installspec(user = FALSE)"
+
+echo "==> Installing Python packages..."
 pip install --upgrade pip
 pip install \
   jupyter \
@@ -29,21 +42,19 @@ pip install \
   pandas \
   matplotlib \
   scipy \
-  seaborn \
-  quarto
+  seaborn
 
-echo "==> Installing R packages..."
-Rscript -e "install.packages(c('IRkernel', 'reticulate', 'tidyverse', 'ggplot2', 'dplyr', 'knitr', 'rmarkdown'), repos='https://cloud.r-project.org')"
+echo "==> Installing Quarto CLI..."
+wget https://quarto.org/download/latest/quarto-linux-amd64.deb -O /tmp/quarto.deb
+sudo dpkg -i /tmp/quarto.deb
+rm /tmp/quarto.deb
 
-echo "==> Registering R kernel with Jupyter..."
-Rscript -e "IRkernel::installspec(user = FALSE)"
-
-echo "==> Installing VS Code extensions for Quarto and R..."
+echo "==> Installing VS Code extensions..."
 code --install-extension quarto.quarto
 code --install-extension REditorSupport.r
-code --install-extension Ikuyadeu.r
+code --install-extension ikuyadeu.r-lsp
 
 echo "==> Validating Quarto installation..."
 quarto check
 
-echo "==> Setup complete. Quarto, R, Python, and VS Code extensions are ready in your Codespace."
+echo "==> Setup complete. R, Python, Quarto, and all extensions are ready in your Codespace."
